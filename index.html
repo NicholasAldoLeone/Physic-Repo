@@ -15,12 +15,23 @@
     <p id = "letterPressed"> </p>
     
     <script>
-            var letterOptions = ["a", "b", "c", "d", "e"];
+            var alphabet = [];
+
+            function generateAlphabet() {
+	            alphabet = [];
+	            for (var i = 97; i < 123; i++) {
+		            alphabet.push(String.fromCharCode(i));
+                }
+	            return alphabet;
+            }
+
+            generateAlphabet();
+
             var $letterPressed = document.getElementById("letterPressed");
             var $interface = document.getElementById("interface");
 
-            var randomIndex = [Math.floor(Math.random() * letterOptions.length)];
-            var correctLetter = letterOptions[randomIndex];
+            var randomIndex = [Math.floor(Math.random() * alphabet.length)];
+            var correctLetter = alphabet[randomIndex];
 
             console.log(correctLetter);
 
@@ -33,8 +44,8 @@
                 if(userGuess === correctLetter) {
                     $interface.innerText = "Correct!";
 
-                    randomIndex = [Math.floor(Math.random() * letterOptions.length)];
-                    correctLetter = letterOptions[randomIndex];
+                    randomIndex = [Math.floor(Math.random() * alphabet.length)];
+                    correctLetter = alphabet[randomIndex];
                     console.log(correctLetter);
 
                 }  
