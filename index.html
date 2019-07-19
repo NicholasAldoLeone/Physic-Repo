@@ -5,52 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    
+    <link rel = "stylesheet" href = "style.css">
 
 </head>
 <body>
 
     <h1> Physic Game! </h1>
     <p id = "interface"> Try and guess the letter I am thinking! </p>
-    <p> your letter </p>
+
+    <p> Wins: </p>
+    <p id = "winCount"> 0 </p>
+
+    <p> Losses: </p>
+    <p id = "loseCount"> 0 </p>
+
+    <p> Guesses Left: </p>
+    <p id = "guessCount"> 9 </p>
+
+    <p> letter pressed so far: </p>
     <p id = "letterPressed"> </p>
     
     <script>
-            var alphabet = [];
+            var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "w", "w", "x", "y", "z",];
 
-            function generateAlphabet() {
-	            alphabet = [];
-	            for (var i = 97; i < 123; i++) {
-		            alphabet.push(String.fromCharCode(i));
-                }
-	            return alphabet;
-            }
+            var $wins = document.getElementById("winCount");
+            var $losses = document.getElementById("loseCount");
+            var $guessesLeft = document.getElementById("guessCount");
 
-            generateAlphabet();
-
+            var wins = 0;
+            var losses = 0;
+            var guessesLeft = 9;
+            var alreadyGuessed = [];
             var $letterPressed = document.getElementById("letterPressed");
             var $interface = document.getElementById("interface");
 
-            var randomIndex = [Math.floor(Math.random() * alphabet.length)];
-            var correctLetter = alphabet[randomIndex];
+      
+            var correctLetter = alphabet[Math.floor(Math.random() * alphabet.length)];
 
-            console.log(correctLetter);
+            function reset () {
+                guessesLeft = 9;
+                alreadyGuessed = [];
+                correctLetter = alphabet[Math.floor(Math.random() * alphabet.length)];
+            }
+
+            function updateStats () {
+                guessesLeft = 9;
+                $guessesLeft.innerText = guessesLeft;
+                
+            }
 
             document.onkeyup = function(event) {
                 var userGuess = event.key;
-                console.log(userGuess)
+                console.log(userGuess);
+                console.log("Correct Letter: " + correctLetter);
 
                 $letterPressed.innerText = userGuess;
 
                 if(userGuess === correctLetter) {
                     $interface.innerText = "Correct!";
+                    wins++;
 
-                    randomIndex = [Math.floor(Math.random() * alphabet.length)];
-                    correctLetter = alphabet[randomIndex];
-                    console.log(correctLetter);
+                    $wins.innerText = wins
+                    reset();
+                    updateStats();
+                    console.log("Correct Letter: " + correctLetter);
 
                 }  
+
                 else {
-                    $interface.innerText = "Wrong!, Try again."
+                    $interface.innerText = "Wrong! Try again."
+                    guessesLeft--;
+
+                    $guessesLeft.innerText = guessesLeft;
+
+
+                    if(guessesLeft === 0) {
+                        
+                        losses++;
+                        $losses.innerText = losses;
+                        reset();
+                        updateStats();
+
+                    }
                     
                 }
             }
